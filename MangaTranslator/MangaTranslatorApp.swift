@@ -6,12 +6,34 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import Firebase
+
+import Foundation
+
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+
+    return true
+  }
+}
 
 @main
-struct MangaTranslatorApp: App {
+struct TranslateMeApp: App {
+   
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashScreen()
         }
+        
+    }
+    init(){
+        FirebaseApp.configure()
+
     }
 }
+
+
+
