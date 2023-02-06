@@ -8,6 +8,8 @@
 import SwiftUI
 import FirebaseStorage
 import FirebaseFirestore
+//import UIKit
+//import PhotosUI
 
 
 struct LangSelector: View {
@@ -23,7 +25,9 @@ struct LangSelector: View {
                 }
             }
             .pickerStyle(.menu)
-            Text("Translate language to: \(selected)")
+            .background(.white)
+            .cornerRadius(10)
+            .foregroundColor(.white)
         }
     }
 }
@@ -34,91 +38,37 @@ struct ImageAndLangView: View {
     @State var selected : String = "English"
     
     
-    
     var body: some View {
         VStack {
-            PhotoPicker(selectedImage: $selectedImage)
+            Spacer()
             LangSelector(selected: $selected)
             
-            Button(action: {
-                self.uploadPhotoAndLang(selectedImage: self.selectedImage, selectedLang: self.selected)
-            }) {
-                Text("Send")
-                
-            }
-        }
-    }
-    func uploadPhotoAndLang(selectedImage: UIImage?, selectedLang: String) {
-        guard let selectedImage = selectedImage else {
-            return
-        }
-        
-        let storageRef = Storage.storage().reference()
-        
-        let imageData = selectedImage.jpegData(compressionQuality: 0.8)
-        let imageName = UUID().uuidString
-        
-        guard imageData != nil else {
-            return
-        }
-        
-        let path = "images/\(UUID().uuidString).jpg"
-        let fileRef = storageRef.child("images/\(imageName).jpg")
-        
-        let uploadTask = fileRef.putData(imageData!, metadata: nil) { metadata,
-            error in
+            PhotoPicker(selectedImage: $selectedImage)
             
-            if error == nil && metadata != nil {
+            
+//            NavigationLink(destination: downloadView(selectedImage: selectedImage, selectedLang: selected)){
+//                Text("Send")
+//                    .frame(width: 100, height: 50)
+//                    .background(.green)
+//                    .cornerRadius(10)
+//                    .foregroundColor(.white)
+                Spacer()
                 
-                let db = Firestore.firestore()
-                let docRef = db.collection("images").document()
-                docRef.setData(["image_name": imageName, "url": path, "language": selectedLang, "new_URL": ""])
-                
-                sendPatchReques(docId: docRef.documentID){ response in
-                    self.downloadImage(docId: response)
-                }
                 
             }
         }
     }
-    func sendPatchReques(docId: String, completion: @escaping (String) -> Void){
-        let url = URL(string: "http://127.0.0.1:5000/images/\(docId)")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "PATCH"
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Error while making requests")
-                return
-            }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                let newDocId = responseJSON["new_doc_id"] as! String
-                completion(newDocId)
-            }
-        }
-        task.resume()
-    }
-    func downloadImage(docId: String){
-        let storageRef = Storage.storage().reference()
-        let islandRef = storageRef.child("images/new_/\(docId).jpg")
-        islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print("Could not find image")
-                return
-            } else {
-                let image = UIImage(data: data!)
-                self.selectedImage = image
-            }
-        }
+
+    
+
+
+struct ImageAndLangView_Previews: PreviewProvider {
+    static var previews: some View {
+        ImageAndLangView()
     }
 }
 
 
-
-
-
-   
 
 
 

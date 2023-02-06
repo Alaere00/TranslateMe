@@ -15,14 +15,13 @@ struct HomeView: View {
     
     @Environment(\.dismiss) private var dismiss
     @State private var showMenu = false
-//    @State var selectedImage: UIImage?
+    @State var selectedImage: UIImage?
+    @State var selected = "English"
+    
 
     var body: some View {
         VStack {
-            Spacer()
-            ImageAndLangView()
-                .padding()
-            .frame(maxHeight: .infinity)
+            ImageAndLangView(selected: selected)
         }
     }
 }

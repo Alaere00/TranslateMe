@@ -10,37 +10,40 @@ import SwiftUI
 struct SplashScreen: View {
     @State private var isActive = false
     @State private var angle: Double = 0
-    
-    let gradient = LinearGradient(gradient: Gradient(colors: [.green, Color("AccentColor")]), startPoint: .top, endPoint: .bottom)
-    
+    @State var isUserCurrentlyLoggedOut : Bool = false
+
     var body: some View {
+        VStack {
         if isActive {
             LoginView()
+            
         } else {
             VStack {
-                VStack {
-                    Image("balloon")
-                        .font(.system(size: 160))
+                    Image("")
+                        .resizable()
+                        .frame(width: 150, height: 130)
                         .rotationEffect(.degrees(angle))
                         .onAppear(){
                             withAnimation(.easeInOut(duration: 3)){
                                 self.angle += 360
                             }
                             
-                        }.background(gradient).cornerRadius(75)
+                        }
                     Text("TranslateMe")
                         .font(Font.custom("Inter-SemiBold", size: 20))
                         .padding()
-                }
                 
-            }.onAppear {
+            }.background(Color("cornflower"))
+            .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                     withAnimation {
                         self.isActive = true
                     }
+                    }
                 }
             }
-        }
+            
+        }.background(Color("cornflower"))
     }
 }
 

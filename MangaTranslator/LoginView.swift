@@ -7,71 +7,62 @@
 
 import SwiftUI
 import FirebaseAuth
-//
-struct Logo : View {
-    var body : some View {
-        VStack {
-            Image("balloon")
-        }
-    }
-}
+import FirebaseFirestore
 
 struct LoginView: View {
     @State var loginStatusMessage = ""
     @StateObject var model = ModelData()
-
-
+    
+    
     var body: some View {
-        NavigationStack(path: $model.path) {
+        NavigationStack {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [.green, Color("AccentColor")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
-
+                LinearGradient(gradient: Gradient(colors: [.gray, Color("cornflower")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
+                
                 VStack(alignment: .center, spacing: 15) {
-                  Logo()
-                    Text("TranslateMe")
+                    
+                    
+                    Text("Login")
                         .font(Font.custom("Inter-Bold", size: 36))
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color.black)
+                    
+                    
+                    Image("manga")
+                        .resizable()
+                        .frame(width: 140, height: 100)
                         .padding([.top, .bottom], 40)
-
+                    
+                    
                     Group {
                         TextField("Email", text: $model.email)
                             .keyboardType(.emailAddress)
                             .autocapitalization(.none)
                             .background(Color.white)
-
-
+                        
+                        
                         SecureField("Password", text: $model.password)
                     }.padding(12)
                         .frame(width: 300, height: 50)
                         .background(Color.white)
                         .cornerRadius(15)
                     VStack {
-                    Button(action: { model.signIn() }) {
-                        Text("Login")
-                            .foregroundColor(Color.white)
-                            .font(.headline)
-                            .frame(width: 200, height: 25)
-                            .padding(10)
-                            .background(Color(.black))
-                            .cornerRadius(15)
-                            .navigationDestination(for: String.self) { view in
-                                if view == "HomeView" {
-                                    ContentView()
-                                }
-                            }
+                        NavigationLink(destination: ContentView()) {
+                            Button(action: { model.signIn() }) {
+                                Text("Login")
+                            }.foregroundColor(Color.white)
+                                .font(.headline)
+                                .frame(width: 200, height: 25)
+                                .padding(10)
+                                .background(Color(.black))
+                                .cornerRadius(15)
                         }
                         
-                        Button(action: {
-                            model.isCurrentlyLoggedIn.toggle()
-                        }) {
+                        NavigationLink(destination: SignUpView()) {
                             Text("Create new account")
                                 .foregroundColor(.black)
                                 .underline()
-                        }.sheet(isPresented: $model.isCurrentlyLoggedIn) {
-                            NavigationView {
-                                SignUpView()
-                            }
-                        }
+                            
+                        }.navigationBarBackButtonHidden(true)
                         
                     } .onAppear {
                         if Auth.auth().currentUser != nil {
@@ -82,6 +73,7 @@ struct LoginView: View {
             }
         }
     }
+}
 
 
 
@@ -90,13 +82,12 @@ struct LoginView: View {
         @State var signUpStatusMessage = ""
         
         var body: some View {
-            NavigationStack(path: $model.path) {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [.green, Color("AccentColor")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
+                LinearGradient(gradient: Gradient(colors: [.gray, Color("cornflower")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
                 VStack(alignment: .center ){
                     Text("Create Account")
                         .font(Font.custom("Inter-Bold", size: 36))
-                        .foregroundColor(Color.white)
+                        .foregroundColor(.black)
                         .padding([.top, .bottom], 40)
                     
                     Group {
@@ -112,85 +103,86 @@ struct LoginView: View {
                         .background(Color.white)
                         .cornerRadius(15)
                     
-                    Button(action: { model.signUp() }) {
-                        Text("Sign up")
-                    }.foregroundColor(Color.white)
-                        .font(.headline)
-                        .frame(width: 200, height: 25)
-                        .padding(10)
-                        .background(Color(.black))
-                        .cornerRadius(15)
+                    NavigationLink(destination: ContentView()) {
+                        Button(action: { model.signUp() }) {
+                            Text("Sign up")
+                        }.foregroundColor(Color.white)
+                            .font(.headline)
+                            .frame(width: 200, height: 25)
+                            .padding(10)
+                            .background(Color(.black))
+                            .cornerRadius(15)
+                    }
                     
-                        .navigationDestination(for: String.self) { view in
-                            if view == "HomeView" {
-                                ContentView()
-                            }
-                        }
+                    
+                    NavigationLink(destination: LoginView()) {
+                        Text("Returning user? login in here")
+                            .foregroundColor(.black)
+                            .underline()
                     }
 
                 }
+                    
+
+                }.navigationBarBackButtonHidden(true)
             }
         }
-    }
+    
     
 
 
 
-class ModelData: ObservableObject {
-    @Published var isCurrentlyLoggedIn = false
-    @Published var email = ""
-    @Published var password = ""
-    @Published var resetEmail = ""
-    @Published var reEnterPassword = ""
-    @Published var resetPassword = ""
-    @Published var alert = false
-    @Published var path = NavigationPath()
-    @Published var alertMsg = ""
-    
-    @AppStorage("log_Status") var status = false
-    
-    func signIn() {
+    class ModelData: ObservableObject {
+        @Published var isCurrentlyLoggedIn = false
+        @Published var email = ""
+        @Published var password = ""
+        @Published var reEnterPassword = ""
+        @Published var StatusMessage = ""
+        @Published var path = NavigationPath()
+        @Published var shouldShowLoginAlert = false
+        @Published var alert = false
         
-        Auth.auth().signIn(withEmail: email, password: password){
-            (result, err) in if err != nil {
-                
-                self.alertMsg = err!.localizedDescription
-                self.alert.toggle()
-                print("Email or password is incorrect")
-                return
-            }
-            let user = Auth.auth().currentUser
-            if !user!.isEmailVerified{
-                self.alert.toggle()
-                try! Auth.auth().signOut()
-                self.path.append("HomeView")
-                return
-            }
-            withAnimation {
-                self.status = true
-            }
-        }
-    }
         
-    func signUp(){
+         func signIn() {
+             Auth.auth().signIn(withEmail: email, password: password) { result, err in
+                 if let err = err {
+                     print("Failed to login user:", err)
+                     self.StatusMessage = "Failed to login user: \(err)"
+                     self.shouldShowLoginAlert = true
+                     return
+                 }
+     
+                 let user = Auth.auth().currentUser
+                 if !user!.isEmailVerified{
+                     self.alert.toggle()
+                     try! Auth.auth().signOut()
+                     self.path.append("HomeView")
+                     return
+                 }
+     
+                 print("Successfully logged in")
+     
+                 self.StatusMessage = "Successfully logged"
+     
+                 self.isCurrentlyLoggedIn = true
+             }
+         }
+        func signUp(){
             Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
                 if let error = error {
-                    self.alertMsg = error.localizedDescription
-                    self.alert.toggle()
-                    print("Email or password is incorrect")
+                    print("Failed to create user")
+                    self.StatusMessage = "Failed to create user: \(error)"
                     return
                 } else {
                     print("Success, new user:", result?.user.email ?? "")
-                    self.path.append("HomeView")
-        
+                    self.StatusMessage = "Successfully created"
+
                 }
-                
             }
         }
     }
-}
-
-
+    
+    
     struct LoginView_Previews: PreviewProvider {
         static var previews: some View {
             LoginView()

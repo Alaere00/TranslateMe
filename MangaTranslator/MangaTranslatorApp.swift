@@ -22,7 +22,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct TranslateMeApp: App {
-   
+    
     var body: some Scene {
         WindowGroup {
             SplashScreen()
@@ -32,6 +32,12 @@ struct TranslateMeApp: App {
     init(){
         FirebaseApp.configure()
 
+    }
+}
+
+extension UIColor {
+    static var customColor: UIColor {
+        return UIColor(red: 0.27, green: 0.57, blue: 1.00, alpha: 1.0)
     }
 }
 

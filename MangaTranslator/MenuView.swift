@@ -10,7 +10,7 @@
 import SwiftUI
 import FirebaseAuth
 
-let gradient = LinearGradient(gradient: Gradient(colors: [.green, Color("AccentColor")]), startPoint: .top, endPoint: .bottom)
+let gradient = LinearGradient(gradient: Gradient(colors: [.gray, Color("cornflower")]), startPoint: .top, endPoint: .bottom)
 
 struct MenuView: View {
     
@@ -38,12 +38,6 @@ struct MenuView: View {
                         }
                     }
                     
-                    NavigationLink(destination: Favorites()) {
-                        HStack {
-                            Image(systemName: "star")
-                            Text("Favorites")
-                        }
-                    }
                 NavigationLink(destination: Settings()) {
                     HStack {
                         Image(systemName: "gear")
@@ -108,7 +102,7 @@ struct LogoutScreen: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.green, Color("AccentColor")]), startPoint: .top, endPoint: .bottom).ignoresSafeArea()
+            LinearGradient(gradient: Gradient(colors: [.gray, Color("cornflower")]), startPoint: .top, endPoint: .bottom).ignoresSafeArea()
             Text("You have successfully signed out")
         }
     }
@@ -142,13 +136,6 @@ struct Bookmark: View {
     }
 }
 
-struct Favorites: View {
-    var body: some View {
-        VStack {
-            Text ("Users will be able to store their favorites in this location")
-        }
-    }
-}
 
 
 
