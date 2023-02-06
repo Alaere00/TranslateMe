@@ -15,33 +15,17 @@ struct HomeView: View {
     
     @Environment(\.dismiss) private var dismiss
     @State private var showMenu = false
+//    @State var selectedImage: UIImage?
 
     var body: some View {
-            VStack {
-                Spacer()
-                ImageAndLangView()
-                    .padding()
-                    .frame(maxHeight: .infinity)
-               
-            }
-            
-    }
-
-
-    private func signOut() {
-        do {
-            try Auth.auth().signOut()
-            print("Successfully logged out")
-            dismiss()
-        } catch {
-            print("Error, could not sign out")
-
+        VStack {
+            Spacer()
+            ImageAndLangView()
+                .padding()
+            .frame(maxHeight: .infinity)
         }
     }
-
 }
-
-
 
 
 struct HomeView_Previews: PreviewProvider {

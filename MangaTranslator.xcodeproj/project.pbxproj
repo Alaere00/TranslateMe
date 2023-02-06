@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		660FFE122988F65500D72AAE /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660FFE112988F65400D72AAE /* MenuView.swift */; };
-		660FFE16298A021E00D72AAE /* LangSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660FFE15298A021E00D72AAE /* LangSelector.swift */; };
 		660FFE1D298AA07800D72AAE /* ImageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660FFE1C298AA07800D72AAE /* ImageApi.swift */; };
 		660FFE1F298AC20F00D72AAE /* ImageAndLangView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660FFE1E298AC20F00D72AAE /* ImageAndLangView.swift */; };
 		660FFE21298AEFE200D72AAE /* Saved.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660FFE20298AEFE200D72AAE /* Saved.swift */; };
@@ -44,6 +43,7 @@
 		66BB6A5829871147007B6249 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 66BB6A5729871146007B6249 /* Fonts */; };
 		66BB6A5B29874BEF007B6249 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BB6A5A29874BEF007B6249 /* HomeView.swift */; };
 		66BB6A5E2987826E007B6249 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BB6A5D2987826E007B6249 /* Images.swift */; };
+		66ECF65D2990538800005C1A /* downLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66ECF65C2990538800005C1A /* downLoadView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +65,6 @@
 
 /* Begin PBXFileReference section */
 		660FFE112988F65400D72AAE /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
-		660FFE15298A021E00D72AAE /* LangSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LangSelector.swift; sourceTree = "<group>"; };
 		660FFE1C298AA07800D72AAE /* ImageApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageApi.swift; sourceTree = "<group>"; };
 		660FFE1E298AC20F00D72AAE /* ImageAndLangView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAndLangView.swift; sourceTree = "<group>"; };
 		660FFE20298AEFE200D72AAE /* Saved.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saved.swift; sourceTree = "<group>"; };
@@ -86,6 +85,7 @@
 		66BB6A59298713B3007B6249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		66BB6A5A29874BEF007B6249 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		66BB6A5D2987826E007B6249 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		66ECF65C2990538800005C1A /* downLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = downLoadView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,19 +132,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		660FFE1B298A9D8800D72AAE /* LanguageBar */ = {
-			isa = PBXGroup;
-			children = (
-				660FFE15298A021E00D72AAE /* LangSelector.swift */,
-			);
-			path = LanguageBar;
-			sourceTree = "<group>";
-		};
 		66BB69F229870DBA007B6249 = {
 			isa = PBXGroup;
 			children = (
 				660FFE1E298AC20F00D72AAE /* ImageAndLangView.swift */,
-				660FFE1B298A9D8800D72AAE /* LanguageBar */,
+				66ECF65C2990538800005C1A /* downLoadView.swift */,
 				66BB6A5F29879A6B007B6249 /* ViewModels */,
 				66BB6A5C29878257007B6249 /* Models */,
 				66BB69FD29870DBA007B6249 /* MangaTranslator */,
@@ -369,8 +361,8 @@
 				66BB6A5229870FD4007B6249 /* SplashScreen.swift in Sources */,
 				66BB6A5629871112007B6249 /* IFonts.swift in Sources */,
 				6670568A298829C6005B753A /* ImagePicker.swift in Sources */,
-				660FFE16298A021E00D72AAE /* LangSelector.swift in Sources */,
 				660FFE21298AEFE200D72AAE /* Saved.swift in Sources */,
+				66ECF65D2990538800005C1A /* downLoadView.swift in Sources */,
 				660FFE25298B116900D72AAE /* Reading.swift in Sources */,
 				66BB6A0129870DBA007B6249 /* ContentView.swift in Sources */,
 				660FFE122988F65500D72AAE /* MenuView.swift in Sources */,

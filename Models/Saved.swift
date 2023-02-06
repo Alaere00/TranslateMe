@@ -8,8 +8,30 @@
 import SwiftUI
 
 struct Saved: View {
+    @State private var showMenu = false
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: {
+            self.showMenu.toggle()
+        }) {
+            Image(systemName: "ellipsis")
+                .imageScale(.large)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .padding()
+        .background(Color.secondary)
+        .clipShape(Circle())
+        .sheet(isPresented: $showMenu){
+            Button(action: {
+                
+            }){
+                Text("Save")
+            }
+            Button(action: {
+                
+            }){
+                Text("Delete")
+            }
+        }
     }
 }
 

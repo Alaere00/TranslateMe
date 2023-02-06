@@ -20,6 +20,7 @@ struct LoginView: View {
     @State var loginStatusMessage = ""
     @StateObject var model = ModelData()
 
+
     var body: some View {
         NavigationStack(path: $model.path) {
             ZStack {
@@ -44,7 +45,7 @@ struct LoginView: View {
                         .frame(width: 300, height: 50)
                         .background(Color.white)
                         .cornerRadius(15)
-
+                    VStack {
                     Button(action: { model.signIn() }) {
                         Text("Login")
                             .foregroundColor(Color.white)
@@ -58,6 +59,20 @@ struct LoginView: View {
                                     ContentView()
                                 }
                             }
+                        }
+                        
+                        Button(action: {
+                            model.isCurrentlyLoggedIn.toggle()
+                        }) {
+                            Text("Create new account")
+                                .foregroundColor(.black)
+                                .underline()
+                        }.sheet(isPresented: $model.isCurrentlyLoggedIn) {
+                            NavigationView {
+                                SignUpView()
+                            }
+                        }
+                        
                     } .onAppear {
                         if Auth.auth().currentUser != nil {
                             model.path.append("HomeView")
@@ -70,48 +85,53 @@ struct LoginView: View {
 
 
 
-struct SignUpView: View {
-    @StateObject var model = ModelData()
-    @State var signUpStatusMessage = ""
-
-    var body: some View {
-            LinearGradient(gradient: Gradient(colors: [.green, Color("AccentColor")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
-            VStack(alignment: .center ){
-                Text("Create Account")
-                    .font(Font.custom("Inter-Bold", size: 36))
-                    .foregroundColor(Color.white)
-                    .padding([.top, .bottom], 40)
-                
-                Group {
-                    TextField("Email", text: $model.email)
+    struct SignUpView: View {
+        @StateObject var model = ModelData()
+        @State var signUpStatusMessage = ""
+        
+        var body: some View {
+            NavigationStack(path: $model.path) {
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [.green, Color("AccentColor")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
+                VStack(alignment: .center ){
+                    Text("Create Account")
+                        .font(Font.custom("Inter-Bold", size: 36))
+                        .foregroundColor(Color.white)
+                        .padding([.top, .bottom], 40)
                     
-                        .keyboardType(.emailAddress)
-                        .autocapitalization(.none)
-                    SecureField("Password", text: $model.password)
-                    SecureField("re-enter Password", text: $model.reEnterPassword)
+                    Group {
+                        TextField("Email", text: $model.email)
+                        
+                            .keyboardType(.emailAddress)
+                            .autocapitalization(.none)
+                        SecureField("Password", text: $model.password)
+                        SecureField("re-enter Password", text: $model.reEnterPassword)
+                        
+                    }.padding(12)
+                        .frame(width: 300, height: 50)
+                        .background(Color.white)
+                        .cornerRadius(15)
                     
-                }.padding(12)
-                    .frame(width: 300, height: 50)
-                    .background(Color.white)
-                    .cornerRadius(15)
-                
-                Button(action: { model.signUp() }) {
-                    Text("Sign up")
-                }.foregroundColor(Color.white)
-                    .font(.headline)
-                    .frame(width: 200, height: 25)
-                    .padding(10)
-                    .background(Color(.black))
-                    .cornerRadius(15)
-    
-                    .navigationDestination(for: String.self) { view in
-                        if view == "HomeView" {
-                            ContentView()
+                    Button(action: { model.signUp() }) {
+                        Text("Sign up")
+                    }.foregroundColor(Color.white)
+                        .font(.headline)
+                        .frame(width: 200, height: 25)
+                        .padding(10)
+                        .background(Color(.black))
+                        .cornerRadius(15)
+                    
+                        .navigationDestination(for: String.self) { view in
+                            if view == "HomeView" {
+                                ContentView()
+                            }
                         }
                     }
+
                 }
             }
         }
+    }
     
 
 
@@ -123,7 +143,6 @@ class ModelData: ObservableObject {
     @Published var resetEmail = ""
     @Published var reEnterPassword = ""
     @Published var resetPassword = ""
-    @Published var isLinkSend = false
     @Published var alert = false
     @Published var path = NavigationPath()
     @Published var alertMsg = ""
@@ -172,7 +191,7 @@ class ModelData: ObservableObject {
 }
 
 
-    struct UserCheck_Previews: PreviewProvider {
+    struct LoginView_Previews: PreviewProvider {
         static var previews: some View {
             LoginView()
     }

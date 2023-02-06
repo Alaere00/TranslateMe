@@ -10,9 +10,6 @@ import Firebase
 import FirebaseStorage
 import FirebaseFirestore
 
-//let menuItems = [Menu(name: "Bookmark", imageName: "bookmark", color: .black),Menu(name: "Save", imageName: "save", color:.black), Menu(name: "Settings", imageName: "settings", color:.black), Menu(name: "Logout", imageName: "logout", color:.black)]
-
-
 struct ContentView: View {
     
     @State private var showMenu = false
@@ -25,8 +22,12 @@ struct ContentView: View {
                         .tabItem {Text("Home")}
                         .tag(1)
                     Saved()
-                        .tabItem {Text("Saved")}
+                        .tabItem {Text("Saved")
+                        Image(systemName: "ellipsis").imageScale(.large)
+                            
+                        }
                         .tag(2)
+                    
                     Reading()
                         .tabItem {Text("Reading")}
                         .tag(3)
