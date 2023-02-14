@@ -16,9 +16,8 @@ struct Saved: View {
     var body: some View {
         VStack {
             Text("Collections").font(.system(size: 30)).bold()
-                .foregroundColor(.white)
-                .padding(.horizontal, 80)
-                .background(Color("cornflower"))
+                .foregroundColor(.black)
+                .background(Color(.white))
             
             List {
                 ForEach(fileManagersWithImages, id: \.self) { fileManager in

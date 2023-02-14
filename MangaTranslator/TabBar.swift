@@ -9,7 +9,6 @@ import SwiftUI
 
 enum Tab: String, CaseIterable {
     case house
-    case square
     case folder
 }
 
@@ -25,8 +24,6 @@ struct TabBar: View {
         switch selectedTab {
         case .house:
             return AnyView(HomeView())
-        case .square:
-            return AnyView(downloadView(selectedImage: selectedImage, selectedLang: lang))
         case .folder:
             return AnyView(Saved())
         }

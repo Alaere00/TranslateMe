@@ -8,6 +8,9 @@
 import SwiftUI
 import FirebaseStorage
 import FirebaseFirestore
+import FirebaseFirestoreSwift
+import SafariServices
+import GameController
 //import UIKit
 //import PhotosUI
 
@@ -22,12 +25,16 @@ struct LangSelector: View {
             Picker("Select a language", selection: $selected){
                 ForEach(languageOptions, id: \.self){
                     Text($0)
+                 
                 }
             }
+            
             .pickerStyle(.menu)
-            .background(.white)
-            .cornerRadius(10)
+            .frame(width: 120, height: 50, alignment: .center)
             .foregroundColor(.white)
+            .background(.green)
+            .cornerRadius(10)
+            
         }
     }
 }
@@ -35,26 +42,12 @@ struct LangSelector: View {
 
 struct ImageAndLangView: View {
     @State private var selectedImage: UIImage?
-    @State var selected : String = "English"
     
     
     var body: some View {
         VStack {
-            Spacer()
-            LangSelector(selected: $selected)
-            
             PhotoPicker(selectedImage: $selectedImage)
-            
-            
-//            NavigationLink(destination: downloadView(selectedImage: selectedImage, selectedLang: selected)){
-//                Text("Send")
-//                    .frame(width: 100, height: 50)
-//                    .background(.green)
-//                    .cornerRadius(10)
-//                    .foregroundColor(.white)
-                Spacer()
-                
-                
+
             }
         }
     }

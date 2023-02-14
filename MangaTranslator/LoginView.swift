@@ -22,7 +22,7 @@ struct LoginView: View {
                 VStack(alignment: .center, spacing: 15) {
                     
                     
-                    Text("Login")
+                    Text("TranslateMe")
                         .font(Font.custom("Inter-Bold", size: 36))
                         .foregroundColor(Color.black)
                     
@@ -116,7 +116,7 @@ struct LoginView: View {
                     
                     
                     NavigationLink(destination: LoginView()) {
-                        Text("Returning user? login in here")
+                        Text("Click here to login")
                             .foregroundColor(.black)
                             .underline()
                     }

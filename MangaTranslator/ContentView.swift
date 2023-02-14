@@ -12,9 +12,9 @@ import FirebaseFirestore
 
 struct ContentView: View {
     @State private var showMenu = false
-    @State var selected : String = "English"
-    @State private var selectedImage: UIImage?
     @State private var tabSelected: Tab = .house
+    @State var selected : String = "English"
+    
     
     
     var body: some View {
@@ -24,8 +24,6 @@ struct ContentView: View {
                     switch tabSelected {
                     case .house:
                         HomeView()
-                    case .square:
-                        downloadView(selectedImage: selectedImage, selectedLang: selected)
                     case .folder:
                         Saved()
 
@@ -40,9 +38,10 @@ struct ContentView: View {
                         }) {
                             Image(systemName: showMenu ? "text.justify" : "text.justify")
                                 .resizable()
-                                .foregroundColor(showMenu ? .black : .black)
+                                .foregroundColor(showMenu ? .black : .white)
                         }
                     }
+ 
                 }
             }
             
@@ -67,6 +66,40 @@ struct ContentView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .navigationBarBackButtonHidden(true)
+        .navigationBarModifier(backgroundColor: UIColor.customColor, foregroundColor:UIColor.white, largeTextAttributesColor: UIColor.black ,hideseperator: false)
+
+    }
+}
+
+struct NavigationBarCustomModifier:ViewModifier{
+    
+    init(backgroundColor: UIColor, foregroundColor:UIColor, tintColor: UIColor? = nil,hideseperator: Bool = false){
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = backgroundColor
+        appearance.titleTextAttributes = [.foregroundColor: foregroundColor]
+        if hideseperator {
+            UINavigationBar.appearance().tintColor = .black
+        }
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+
+    }
+    
+    func body(content: Content) -> some View {
+        content
+    }
+}
+extension UIColor {
+    static var customColor: UIColor {
+        return UIColor(red: 0.27, green: 0.57, blue: 1.00, alpha: 1.0)
+    }
+}
+
+extension View{
+    func navigationBarModifier(backgroundColor: UIColor, foregroundColor:UIColor, largeTextAttributesColor: UIColor, tintColor: UIColor? = nil,hideseperator: Bool = false)-> some View{
+        self.modifier(NavigationBarCustomModifier(backgroundColor: backgroundColor, foregroundColor: foregroundColor, tintColor: tintColor, hideseperator: hideseperator))
     }
 }
 

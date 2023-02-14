@@ -25,16 +25,20 @@ struct downloadView: View {
     @State private var folderName = ""
     @State var fileManagersWithImages = [FileManagerWithImages]()
 
+    
+    
     var body: some View {
         VStack {
             if let storageImage = storageImage {
                 Image(uiImage: storageImage)
-
+                
                 HStack {
                     TextField("Create new collection", text: $folderName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .foregroundColor(.black)
                         .padding(.horizontal)
+                        .shadow(radius: 5)
+            
 
                     Button(action: {
                         let fileManagerWithImages = FileManagerWithImages(name: self.folderName, images: [storageImage])
@@ -93,13 +97,35 @@ struct downloadView: View {
                         }
                     }) {
                         Text("Save Image")
-                    }
+                            .padding(10)
+                            .background(.blue)
+                            .foregroundColor(.white)
+            
+                    }.cornerRadius(10)
+                    Spacer()
                 }
                 .padding(.top, 20)
-
-                NavigationLink(destination: Saved()) {
-                    Text("See collections")
+                
+                
+                HStack {
+                    NavigationLink(destination: Saved()) {
+                        Text("See collections")
+                    }.padding(15)
+                        .foregroundColor(.white)
+                        .background(.yellow)
+                        .cornerRadius(10)
+                    
+                    Button("Download to library") {
+                        let imageSaver = ImageSaver()
+                        imageSaver.writeToPhotoAlbum(image: storageImage)
+                        
+                    }.padding(15)
+                        .foregroundColor(.white)
+                        .background(.green)
+                        .cornerRadius(10)
                 }
+                
+                
             } else {
                 LoadingView(tintColor: Color("Color"), scaleSize: 2.0).padding(.bottom, 40)
                 Text("Loading...")
@@ -109,6 +135,7 @@ struct downloadView: View {
             uploadPhotoAndLang(selectedImage: selectedImage, selectedLang: selectedLang)
         
     }
+        
 }
 
     func uploadPhotoAndLang(selectedImage: UIImage?, selectedLang: String) {
@@ -186,6 +213,8 @@ struct downloadView: View {
                             
                             self.storageImage = resizedImage
                             
+                            
+                            
                             }
                             fileRef.delete { error in
                             if let error = error {
@@ -247,12 +276,14 @@ struct LoadingView: View {
 }
 
 extension View {
-    @ViewBuilder func hidden(_ shouldHide: UIImage) -> some View {
-        switch shouldHide {
-        case is UIImage: self.hidden()
-//        case is != UIImage: self
+    @ViewBuilder func hidden(_ shouldHide: UIImage?) -> some View {
+        if shouldHide == nil {
+            self.hidden()
+        } else {
+            self
         }
     }
 }
-    
-    
+
+
+

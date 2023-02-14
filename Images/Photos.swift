@@ -20,7 +20,7 @@ struct PhotoPicker: View {
             if selectedImage != nil {
                 Image(uiImage: selectedImage!)
                     .resizable()
-                    .frame(width: 500, height: 500, alignment: .center)
+                    .frame(width: 400, height: 500, alignment: .center)
             } else {
             Rectangle()
                 .fill(Color("Color"))
@@ -41,6 +41,8 @@ struct PhotoPicker: View {
                     .cornerRadius(10)
                 
                 }
+                LangSelector(selected: $selected)
+                
                 NavigationLink(destination: downloadView(selectedImage: selectedImage, selectedLang: selected)){
                     Text("Send")
                         .frame(width: 100, height: 50)
@@ -48,6 +50,7 @@ struct PhotoPicker: View {
                         .cornerRadius(10)
                         .foregroundColor(.white)
                     }
+                
             
             .sheet(isPresented: $isPickerShowing, onDismiss: nil){
                 ImagePicker(selectedImage: $selectedImage, isPickerShowing: $isPickerShowing)

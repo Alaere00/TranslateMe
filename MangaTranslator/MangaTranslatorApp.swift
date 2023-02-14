@@ -35,11 +35,7 @@ struct TranslateMeApp: App {
     }
 }
 
-extension UIColor {
-    static var customColor: UIColor {
-        return UIColor(red: 0.27, green: 0.57, blue: 1.00, alpha: 1.0)
-    }
-}
+
 
 
 

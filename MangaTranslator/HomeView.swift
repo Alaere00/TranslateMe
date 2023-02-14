@@ -21,7 +21,7 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
-            ImageAndLangView(selected: selected)
+            ImageAndLangView()
         }
     }
 }
