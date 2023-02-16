@@ -216,11 +216,10 @@ struct downloadView: View {
                     if let storageImage = UIImage(data: imageData){
                         DispatchQueue.main.async{
                             
+                            //                        self.storageImage = storageImage
                             let resizedImage = storageImage.resizeImage(targetSize: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
                             
                             self.storageImage = resizedImage
-                            
-                            
                             
                             }
                             fileRef.delete { error in
