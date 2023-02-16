@@ -9,10 +9,8 @@ import SwiftUI
 import FirebaseStorage
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import SafariServices
-import GameController
-//import UIKit
-//import PhotosUI
+
+
 
 
 struct LangSelector: View {

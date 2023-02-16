@@ -24,6 +24,8 @@ struct downloadView: View {
     @State var storageImage: UIImage?
     @State private var folderName = ""
     @State var fileManagersWithImages = [FileManagerWithImages]()
+    @State var collections: [String] = []
+    @State private var selectedCollection: String = ""
 
     
     
@@ -31,80 +33,86 @@ struct downloadView: View {
         VStack {
             if let storageImage = storageImage {
                 Image(uiImage: storageImage)
+                    .resizable()
+                    .frame(width: 500, height: 500)
                 
-                HStack {
-                    TextField("Create new collection", text: $folderName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .foregroundColor(.black)
-                        .padding(.horizontal)
-                        .shadow(radius: 5)
-            
+                
+                    HStack {
+                        TextField("Enter text", text: $folderName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .foregroundColor(.black)
+                            .padding(.horizontal)
+                            .shadow(radius: 5)
+                        
 
-                    Button(action: {
-                        let fileManagerWithImages = FileManagerWithImages(name: self.folderName, images: [storageImage])
-
-                        let imageData = storageImage.jpegData(compressionQuality: 0.75)
-                        let imageReference = Storage.storage().reference().child("collections/\(UUID().uuidString)")
-                        imageReference.putData(imageData!, metadata: nil) { (metadata, error) in
-                            if let error = error {
-                                print("Error:/\(error)")
-                                return
-                            }
-
-                            imageReference.downloadURL { (url, error) in
+                        Button(action: {
+                            let fileManagerWithImages = FileManagerWithImages(name: self.folderName, images: [storageImage])
+                            
+                            let imageData = storageImage.jpegData(compressionQuality: 0.75)
+                            let imageReference = Storage.storage().reference().child("collections/\(UUID().uuidString)")
+                            imageReference.putData(imageData!, metadata: nil) { (metadata, error) in
                                 if let error = error {
                                     print("Error:/\(error)")
                                     return
                                 }
-
-                                let imageURL = url?.absoluteString ?? ""
-
-                                Firestore.firestore().collection("collections").whereField("folderName", isEqualTo: fileManagerWithImages.name).getDocuments { (querySnapshot, error) in
+                                
+                                imageReference.downloadURL { (url, error) in
                                     if let error = error {
                                         print("Error:/\(error)")
                                         return
                                     }
-
-                                    if querySnapshot!.documents.count > 0 {
-                                        let documentID = querySnapshot!.documents.first!.documentID
-                                        Firestore.firestore().collection("collections").document(documentID).updateData([
-                                            "images": FieldValue.arrayUnion([imageURL])
-                                        ]) { (error) in
-                                            if let error = error {
-                                                print("Error:/\(error)")
-                                                return
-                                            }
-
-                                            print("Data updated successfully")
+                                    
+                                    let imageURL = url?.absoluteString ?? ""
+                                    
+                                    Firestore.firestore().collection("collections").whereField("folderName", isEqualTo: fileManagerWithImages.name).getDocuments { (querySnapshot, error) in
+                                        if let error = error {
+                                            print("Error:/\(error)")
+                                            return
                                         }
-                                    } else {
-                                        let fileManagerWithImagesData: [String: Any] = [
-                                            "folderName": fileManagerWithImages.name,
-                                            "images": [imageURL]
-                                        ]
-
-                                        Firestore.firestore().collection("collections").addDocument(data: fileManagerWithImagesData) { (error) in
-                                            if let error = error {
-                                                print("Error:/\(error)")
-                                                return
+                                        
+                                        if querySnapshot!.documents.count > 0 {
+                                            let documentID = querySnapshot!.documents.first!.documentID
+                                            Firestore.firestore().collection("collections").document(documentID).updateData([
+                                                "images": FieldValue.arrayUnion([imageURL])
+                                            ]) { (error) in
+                                                if let error = error {
+                                                    print("Error:/\(error)")
+                                                    return
+                                                }
+                                                
+                                                print("Data updated successfully")
                                             }
-
-                                            print("Data added successfully")
+                                        } else {
+                                            let fileManagerWithImagesData: [String: Any] = [
+                                                "folderName": fileManagerWithImages.name,
+                                                "images": [imageURL]
+                                            ]
+                                            
+                                           
+                                            
+                                            Firestore.firestore().collection("collections").addDocument(data: fileManagerWithImagesData) { (error) in
+                                                if let error = error {
+                                                    print("Error:/\(error)")
+                                                    return
+                                                }
+                                                
+                                                print("Data added successfully")
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    }) {
-                        Text("Save Image")
-                            .padding(10)
-                            .background(.blue)
-                            .foregroundColor(.white)
-            
-                    }.cornerRadius(10)
-                    Spacer()
-                }
-                .padding(.top, 20)
+                        }) {
+                            Text("Save Image")
+                                .padding(10)
+                                .background(.blue)
+                                .foregroundColor(.white)
+                            
+                        }.cornerRadius(10)
+                        Spacer()
+                    }
+                    .padding(.top, 20)
+                
                 
                 
                 HStack {
@@ -202,13 +210,12 @@ struct downloadView: View {
         
         let storageRef = Storage.storage().reference()
         let fileRef = storageRef.child("images/\(newURL)")
-        fileRef.getData(maxSize: 2 * 1024 * 1024){ data, error in
+        fileRef.getData(maxSize: 3 * 1024 * 1024){ data, error in
             if error == nil {
                 if let imageData = UIImage(data: data!)?.jpegData(compressionQuality: 1.0) {
                     if let storageImage = UIImage(data: imageData){
                         DispatchQueue.main.async{
                             
-                            //                        self.storageImage = storageImage
                             let resizedImage = storageImage.resizeImage(targetSize: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
                             
                             self.storageImage = resizedImage

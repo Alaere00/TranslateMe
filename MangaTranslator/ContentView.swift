@@ -55,12 +55,12 @@ struct ContentView: View {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
                     MenuView()
-                        .frame(width: UIScreen.main.bounds.width * 1.1, height: UIScreen.main.bounds.height, alignment: .leading)
+                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .leading)
                         .offset(x: showMenu ? 0 : -UIScreen.main.bounds.width * 0.7)
                         .animation(.spring(), value: showMenu)
-                }
-                .onTapGesture {
-                    showMenu = false
+                    }
+                    .onTapGesture {
+                        showMenu = false
                 }
             }
         }

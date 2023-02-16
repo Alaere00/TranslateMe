@@ -109,6 +109,8 @@ struct Saved: View {
 
 struct ImageView: View {
     @State var fileManager: FileManagerWithImages
+    @State var currentScale: CGFloat = 0
+    @State var finalScale: CGFloat = 1
 
     var body: some View {
         VStack {
@@ -120,10 +122,22 @@ struct ImageView: View {
                         Image(uiImage: self.fileManager.images[image])
                             .resizable()
                             .aspectRatio(contentMode: .fit)
+                            .scaleEffect(finalScale + currentScale)
+                            .gesture(
+                                MagnificationGesture()
+                                    .onChanged { newScale in
+                                        currentScale = newScale
+                                    }
+                                    .onEnded { scale in
+                                        finalScale = scale
+                                        currentScale = 0
+                                    }
+                            )
                 }
             }
             .background(.gray)
             .ignoresSafeArea(.all)
+        
         }
     }
 }

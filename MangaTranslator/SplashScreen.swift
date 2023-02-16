@@ -10,42 +10,55 @@ import SwiftUI
 struct SplashScreen: View {
     @State private var isActive = false
     @State private var angle: Double = 0
-    @State var isUserCurrentlyLoggedOut : Bool = false
-
+    @State var size = 0.4
+    @State var opacity = 0.6
+    @State var isUserCurrentlyLoggedOut : Bool = true
+    let gradient = LinearGradient(gradient: Gradient(colors: [.white, Color("cornflower")]), startPoint: .top, endPoint: .bottom)
+    
     var body: some View {
-        VStack {
-        if isActive {
-            LoginView()
-            
-        } else {
-            VStack {
-                    Image("")
-                        .resizable()
-                        .frame(width: 150, height: 130)
-                        .rotationEffect(.degrees(angle))
-                        .onAppear(){
-                            withAnimation(.easeInOut(duration: 3)){
-                                self.angle += 360
-                            }
-                            
-                        }
-                    Text("TranslateMe")
-                        .font(Font.custom("Inter-SemiBold", size: 20))
-                        .padding()
+
+            ZStack {
+                gradient.ignoresSafeArea()
                 
-            }.background(Color("cornflower"))
+                if isActive {
+                    NavigationView {
+                            LoginView()
+                        }
+                    
+                } else {
+                    VStack {
+                        Image("manga")
+                            .resizable()
+                            .frame(width: 160, height: 140)
+                        Text("TranslateMe")
+                            .font(.system(size: 24))
+                        
+                    }
+                    
+                    .scaleEffect(size)
+                    .opacity(opacity)
+                    .onAppear {
+                        withAnimation(.easeIn(duration: 1.5)) {
+                            self.size = 0.9
+                            self.opacity = 1.00
+                        }
+                    }
+                }
+
+                
+        }
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                     withAnimation {
                         self.isActive = true
-                    }
+                    
                     }
                 }
             }
             
-        }.background(Color("cornflower"))
+        }
     }
-}
+
 
 
 

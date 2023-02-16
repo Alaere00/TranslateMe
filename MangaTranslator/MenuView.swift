@@ -10,7 +10,7 @@
 import SwiftUI
 import FirebaseAuth
 
-let gradient = LinearGradient(gradient: Gradient(colors: [.gray, Color("cornflower")]), startPoint: .top, endPoint: .bottom)
+let gradient = LinearGradient(gradient: Gradient(colors: [.white, Color("cornflower")]), startPoint: .top, endPoint: .bottom)
 
 struct MenuView: View {
     
@@ -22,6 +22,7 @@ struct MenuView: View {
         VStack {
             Text("Welcome")
                 .font(.title)
+                .padding(.top, 40)
                 .foregroundColor(.black)
             
             Divider()
@@ -102,7 +103,7 @@ struct LogoutScreen: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.gray, Color("cornflower")]), startPoint: .top, endPoint: .bottom).ignoresSafeArea()
+            LinearGradient(gradient: Gradient(colors: [.white, Color("cornflower")]), startPoint: .top, endPoint: .bottom).ignoresSafeArea()
             Text("You have successfully signed out")
         }
     }

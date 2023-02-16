@@ -17,7 +17,7 @@ struct LoginView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [.gray, Color("cornflower")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
+                LinearGradient(gradient: Gradient(colors: [.white, Color("cornflower")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
                 
                 VStack(alignment: .center, spacing: 15) {
                     
@@ -55,6 +55,10 @@ struct LoginView: View {
                                 .padding(10)
                                 .background(Color(.black))
                                 .cornerRadius(15)
+                            
+                                .alert(isPresented: $model.shouldShowLoginAlert) {
+                                    Alert(title: Text("Error"), message: Text(model.StatusMessage), dismissButton: .default(Text("OK")))
+                                }
                         }
                         
                         NavigationLink(destination: SignUpView()) {
@@ -83,7 +87,7 @@ struct LoginView: View {
         
         var body: some View {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [.gray, Color("cornflower")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
+                LinearGradient(gradient: Gradient(colors: [.white, Color("cornflower")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
                 VStack(alignment: .center ){
                     Text("Create Account")
                         .font(Font.custom("Inter-Bold", size: 36))

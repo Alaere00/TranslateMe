@@ -20,7 +20,9 @@ struct PhotoPicker: View {
             if selectedImage != nil {
                 Image(uiImage: selectedImage!)
                     .resizable()
-                    .frame(width: 400, height: 500, alignment: .center)
+                    .frame(width: 500, height: 500)
+                
+
             } else {
             Rectangle()
                 .fill(Color("Color"))
