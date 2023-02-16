@@ -9,15 +9,30 @@ The project was built using swiftui, and python in the backend. The user can sel
 # Dependencies 
 TranslateMe relies on:
 
-Google Firebase
-Firebase/Firestore Database
-Firebase/Storage
+Python backend Api 
+
+Google Firebase:
+* Firebase/FirestoreDatabase
+* Firebase/Storage
 
 # Getting Started
 
-Download XCODE 
-Create a Google Firebase account and follow the steps to configure a database in Firestore and storage. 
+# Xcode Installation
+
+Download Xcode from the app store, the download is free and should be updated to the latest version. Xcode is the developer toolkit that allows users to create apps for IOS systems Mac, iPhone, iPad, Apple Watch, and Apple TV. 
+
+# Google Firebase
+
+
+1. Create an iOS app and select Firestore Database and Storage.
+2. Follow the specific configurations necessary for both, as detailed in Firebase.
+3. Save a GoogleService.plist file into the project root directory as it is a mandatory requirement to connect the app to Firebase.
+4. Hide the GoogleService.plist in .gitignore as it is unique to your project.
+5. Add the Firebase SDK to your project.
+6. Begin working with Firebase.
 
 # Authors 
 
 Alaere Nekekpemi 
+
+
